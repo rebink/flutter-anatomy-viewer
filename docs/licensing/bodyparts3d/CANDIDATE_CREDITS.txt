@@ -1,0 +1,33 @@
+ANATOMY ASSETS
+BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International.
+https://creativecommons.org/licenses/by/4.0/
+
+Source: official LSDB Archive / DBCLS, BodyParts3D Release 4.0.
+https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html
+Official license (updated 27 February 2025):
+https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html
+
+Modifications: combined official OBJ elements into selectable regions, reduced
+polygon counts, converted coordinates and units, exported GLB and its base64
+representation, and applied illustrative runtime materials. Compound organs
+include constituent structures from the official PART-OF tree. The heart
+represents regions of its wall. Geometry differs from our previous mirror-based
+build. The resulting anatomy assets are distributed under CC BY 4.0.
+
+Keep this attribution, source/license links and modification notice when
+redistributing the assets, including in commercial apps and packages. No
+share-alike requirement applies under CC BY 4.0, but attribution still applies.
+See BODY_PARTS_LICENSE.txt, anatomy-manifest.json and anatomy-provenance.json.
+Source/license evidence: docs/licensing/bodyparts3d/.
+Reproduction script: tools/prepare_official_anatomy.py.
+Candidate only: not promoted into the app; lung representation requires review.
+
+Generic adult male anatomy, not a patient-specific reconstruction. Reduced-detail
+geometry and region mapping have not been clinically validated. No endorsement
+by DBCLS is implied. Reference JPG is not distributed in this app.
+
+RENDERER
+Three.js r170 - MIT License. See THREE_LICENSE.txt.
+Flutter and WebView dependencies retain their respective licenses.
+
+No actual medical findings or documents are included.

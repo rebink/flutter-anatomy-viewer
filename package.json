@@ -1,0 +1,13 @@
+{
+  "name": "anatomy-viewer-assets",
+  "private": true,
+  "scripts": {
+    "build:viewer": "esbuild tools/viewer.js --bundle --minify --outfile=assets/viewer/viewer.js",
+    "test:viewer": "node tools/check_viewer.cjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.0",
+    "playwright": "1.55.1",
+    "three": "0.170.0"
+  }
+}

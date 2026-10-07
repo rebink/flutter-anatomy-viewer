@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'none';">
+  <title>Interactive anatomy prototype</title>
+  <style>
+    html,body { margin:0; width:100%; height:100%; overflow:hidden; background:var(--scene-background,transparent); }
+    body { background:radial-gradient(ellipse at 50% 38%,var(--scene-highlight,transparent) 0%,var(--scene-background,transparent) 67%); }
+    canvas { display:block; touch-action:none; }
+    #status { position:absolute; top:45%; width:100%; text-align:center; color:var(--scene-foreground,#64757b); font:14px sans-serif; pointer-events:none; }
+  </style>
+</head>
+<body>
+  <div id="status" role="status">Preparing anatomy…</div>
+  <script src="anatomy-data.js"></script>
+  <script src="viewer.js"></script>
+</body>
+</html>

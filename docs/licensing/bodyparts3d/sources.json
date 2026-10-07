@@ -1,0 +1,31 @@
+{
+  "retrieved": "2026-10-06",
+  "license_updated": "2025-02-27",
+  "sources": [
+    {
+      "file": "license.html",
+      "url": "https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html",
+      "sha256": "e3ef71f349581706198cecb375cd141d0bf6fdcbbe2d7e5ff6b41c7457af4cf8"
+    },
+    {
+      "file": "update.html",
+      "url": "https://dbarchive.biosciencedbc.jp/en/bodyparts3d/update.html",
+      "sha256": "d049e4477d08d1df54d048f1d36daea0c83016f6dc89f86ace4b7312fa92a0e7"
+    },
+    {
+      "file": "download.html",
+      "url": "https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html",
+      "sha256": "66942b3c38bcec49784b97c334e2e76e009d4b02590d32c5bf7170d5c7761e82"
+    },
+    {
+      "file": "README_e.html",
+      "url": "https://dbarchive.biosciencedbc.jp/data/bodyparts3d/LATEST/README_e.html",
+      "sha256": "f9a90b4d945ad0fe50db45c712e931aa54e52667187b30d7085b6cc394f40107"
+    },
+    {
+      "file": "CC-BY-4.0.html",
+      "url": "https://creativecommons.org/licenses/by/4.0/legalcode.en",
+      "sha256": "58230517b7895aa219ff46a6ed63e67057a1582fb9ea054b16728a8c13525650"
+    }
+  ]
+}

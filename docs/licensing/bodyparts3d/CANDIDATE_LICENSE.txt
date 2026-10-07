@@ -1,0 +1,24 @@
+BodyParts3D Release 4.0 - CC Attribution 4.0 International (CC BY 4.0)
+
+Official license: https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html
+Official license page last updated: 2025/02/27
+License: https://creativecommons.org/licenses/by/4.0/
+Legal code: https://creativecommons.org/licenses/by/4.0/legalcode.en
+
+Required attribution specified by DBCLS:
+BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International.
+
+This is a notice, not the complete legal code. CC BY 4.0 permits commercial
+use, adaptation and redistribution subject to its terms. Retain attribution,
+license/source links and modification notices when sharing the models or
+adaptations. Do not impose legal or technological restrictions that prevent
+recipients from exercising licensed rights. No endorsement or clinical
+validation is implied. This is not a public-domain or attribution-free asset.
+
+The official license page and legal code are preserved under
+docs/licensing/bodyparts3d/. See CREDITS.txt for this package's modifications
+and anatomy-provenance.json for official input URLs and checksums.
+
+This candidate is a fresh build from the official Release 4.0 archive; it is
+not the currently bundled app model. Do not mix old cached geometry into this
+build or apply this notice to the legacy package assets.
