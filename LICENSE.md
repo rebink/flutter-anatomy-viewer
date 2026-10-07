@@ -2,19 +2,22 @@
 
 ## Application code
 
-No application-code license is granted at this time. This is a private prototype,
-not an open-source release or a published Flutter package. Repository access
-alone does not grant permission to redistribute or reuse the original application
-code. Obtain explicit permission from its rights holder before external reuse.
-Do not apply MIT, CC BY 4.0, or another blanket license to this repository.
-`publish_to: none` must remain in `pubspec.yaml`.
+The original application code, tools and documentation are licensed under
+[MIT](LICENSE), allowing reuse in private commercial products such as Cureocity.
+Include the MIT copyright and permission notice with copies or substantial portions
+of that software. This grant does **not** relicense third-party assets or evidence.
+
+The repository remains private until the approved model-migration/public-release
+plan is complete; MIT does not itself change repository visibility. This is not
+yet a published Flutter package. Keep `publish_to: none` in `pubspec.yaml`.
+Do not apply a blanket MIT label to the model assets.
 
 ## Bundled anatomy
 
 The mirror-derived BodyParts3D assets in `assets/viewer/anatomy.glb` and
 `assets/viewer/anatomy-data.js` retain **Creative Commons Attribution-Share Alike
 2.1 Japan (CC BY-SA 2.1 JP)**. Their modifications remain under those terms.
-The absence of an application-code license does not revoke the model license.
+The application's MIT license does not replace or remove the model license.
 
 - Attribution and modifications: [CREDITS.txt](assets/viewer/CREDITS.txt)
 - Preserved source license summary: [BODY_PARTS_LICENSE.txt](assets/viewer/BODY_PARTS_LICENSE.txt)

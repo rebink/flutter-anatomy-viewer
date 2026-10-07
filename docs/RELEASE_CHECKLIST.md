@@ -7,9 +7,10 @@ obligation. Do not distribute until the relevant permissions and gates are met.
 
 ## 1. Confirm which rights you have
 
-- [ ] Obtain permission to reuse/distribute this application's original code.
-  No application-code license is currently granted; private GitHub access is not
-  a substitute. Keep `publish_to: none` until an explicit release decision.
+- [ ] Preserve the original application's [MIT notice](../LICENSE) when reusing or
+  distributing its code, including in private commercial Cureocity builds.
+  Confirm authority to license contributions; MIT does not cover third-party models.
+  Keep `publish_to: none` until an explicit package-release decision.
 - [ ] Record the exact version/commit and model artifact hashes shipped.
 - [ ] Identify the bundled assets as **CC BY-SA 2.1 Japan**, not MIT/CC BY 4.0.
   Use [LICENSE.md](../LICENSE.md), the bundled credits and source license summary.

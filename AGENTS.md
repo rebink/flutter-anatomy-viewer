@@ -9,8 +9,10 @@ CC BY-SA 2.1 Japan notices. Do NOT label those artifacts as CC BY 4.0 or MIT.
 The official DBCLS license update to CC BY 4.0 on 27 February 2025 is verified,
 but the official Release 4.0 candidate has a lung-geometry mismatch and has NOT
 been promoted into the app. See `docs/licensing/bodyparts3d/` for evidence.
-Package publication remains blocked pending geometry/source approval and a
-separate application-code license decision. Keep `publish_to: none`.
+Original application code is MIT licensed; see LICENSE and LICENSE.md for scope.
+Models are not MIT. Public repository visibility and package publication remain
+blocked pending geometry/source approval under the agreed migration-first plan.
+Keep `publish_to: none`.
 
 ## Mandatory attribution UX
 

@@ -4,8 +4,9 @@ Start with [installation and usage](docs/SETUP.md),
 [theme/performance guidance](docs/THEMING.md), and
 [the release checklist](docs/RELEASE_CHECKLIST.md).
 The repository is a private app prototype, not an installable package.
-[LICENSE.md](LICENSE.md) grants no original application-code reuse license;
-obtain permission before external code reuse. Model rights remain separate.
+Original application code is [MIT licensed](LICENSE), including for private
+commercial use. Preserve the MIT notice. [Model rights remain separate](LICENSE.md).
+The repository stays private until the official-model migration is approved.
 
 ## Current status - not yet migrated
 
@@ -52,7 +53,8 @@ Retain license files with redistributed models/packages as well. Attribution is
 not the entire license: current CC BY-SA assets also retain share-alike terms;
 CC BY 4.0 assets still require preserving applicable notices and avoiding
 conflicting legal/technological restrictions. Review host EULA/store/DRM terms.
-Three.js has a separate MIT notice. Application-code licensing is not selected.
+Three.js has a separate MIT notice. Original application code is MIT licensed;
+that grant does not cover third-party geometry.
 
 If your app refuses attribution anywhere, do not integrate these bundled models.
 Obtain separate permission or replace them with appropriate original/CC0 assets.

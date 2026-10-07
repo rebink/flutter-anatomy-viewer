@@ -7,8 +7,10 @@ installable pub.dev package. It runs its bundled Three.js viewer inside a WebVie
 There is no backend, real patient data, or runtime CDN requirement. Dependency
 installation does require network access on a fresh machine.
 
-Access is private. Application-code reuse/distribution requires separate permission;
-read [LICENSE.md](../LICENSE.md) and [INTEGRATION.md](../INTEGRATION.md) first.
+Access remains private pending the agreed official-model migration and approval.
+Original application code is MIT licensed for reuse, including private commercial
+apps; the models are separately licensed. Read [LICENSE.md](../LICENSE.md) and
+[INTEGRATION.md](../INTEGRATION.md) before distributing a host app.
 
 ## Prerequisites
 
@@ -137,7 +139,7 @@ into app assets: lung geometry and a complete migration need separate approval.
 ## Embedding into another app
 
 There is no supported `flutter pub add` / Git-dependency installation yet.
-After obtaining application-code permission, use the in-repository
+Preserve the MIT code notice and separately satisfy the model terms. Use the in-repository
 `AnatomyScreen`/`AnatomyApp` constructors as the prototype starting point. Keep
 its support Dart files, complete listed viewer assets and WebView dependencies;
 use [the integration guide](../INTEGRATION.md) for attribution and host-agent rules.

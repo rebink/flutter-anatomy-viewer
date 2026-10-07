@@ -8,13 +8,16 @@ Android/iOS Flutter prototype: a translucent 3D body with Body Parts, Muscles an
 
 Private repository: **rebink/flutter-anatomy-viewer** (personal account, not Cureocity).
 This is an application prototype, **not a published Flutter package**. Original
-application code has no reuse license yet; the models and dependencies have
-separate licenses. See [LICENSE.md](LICENSE.md) before redistribution.
+application code is [MIT licensed](LICENSE), including for private commercial use.
+Models and dependencies have separate licenses; the bundled models are not MIT.
+See [LICENSE.md](LICENSE.md) before redistribution. The repository stays private
+until the official-model migration is reviewed and approved.
 
 - [Install, run, use controls and troubleshoot](docs/SETUP.md)
 - [Theme customization and performance tuning](docs/THEMING.md)
 - [Integration and mandatory attribution](INTEGRATION.md)
 - [Legal/release checklist and host handoff](docs/RELEASE_CHECKLIST.md)
+- [Public/Cureocity migration blockers and source request](docs/licensing/MIGRATION_STATUS.md)
 - [Agent rules](AGENTS.md) and [medical parameter contract](medical-support.md)
 
 ## Run
@@ -112,7 +115,7 @@ Rebuilding with a different style or theme updates the existing viewer without r
 
 ## Package readiness
 
-This remains a private prototype, not a published package. The next extraction should be a small viewer widget with caller-provided highlights and an organ-tap callback; keep medical data, interpretation and navigation in the host app. Retain an example app rather than embedding its demo findings in the library. Choose an explicit application-code license before distribution; the bundled model's current CC BY-SA license is separate and must not be relabeled as MIT. Complete or explicitly approve the official CC BY 4.0 geometry migration before advertising that license. Include `AGENTS.md`, `INTEGRATION.md`, notices and licensing evidence in the eventual package; keep its attribution button mandatory. Support package-relative asset loading during extraction. Android/physical-device validation and accessibility testing remain release gates.
+This remains a private prototype, not a published package. The next extraction should be a small viewer widget with caller-provided highlights and an organ-tap callback; keep medical data, interpretation and navigation in the host app. Retain an example app rather than embedding its demo findings in the library. Preserve the MIT application-code notice when distributing it; the bundled model's current CC BY-SA license is separate and must not be relabeled as MIT. Complete or explicitly approve the official CC BY 4.0 geometry migration before advertising that license. Include `AGENTS.md`, `INTEGRATION.md`, notices and licensing evidence in the eventual package; keep its attribution button mandatory. Support package-relative asset loading during extraction. Android/physical-device validation and accessibility testing remain release gates.
 
 ## Validation status and remaining work
 
