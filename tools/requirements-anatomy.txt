@@ -1,0 +1,4 @@
+# Validated with Python 3.13; tooling only, never bundled in the app.
+trimesh==5.1.1
+fast-simplification==0.2.0
+numpy==2.5.3

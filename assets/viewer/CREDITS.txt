@@ -5,6 +5,14 @@ https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en
 Source: https://github.com/Kevin-Mattheus-Moerman/BodyParts3D
 Pinned source revision: f0eeb6e843380cfe6b83797cf8c3e1af74de5e61
 Original database: https://dbarchive.biosciencedbc.jp/en/bodyparts3d/
+Mirror: Kevin Mattheus Moerman / BodyParts3D (OBJ-to-STL conversion).
+
+Source-requested references:
+Mitsuhashi N, Fujieda K, Tamura T, Kawamoto S, Takagi T, Okubo K.
+BodyParts3D: 3D structure database for anatomical concepts.
+Nucleic Acids Res. 2009 Jan;37(Database issue):D782-5.
+https://doi.org/10.1093/nar/gkn613
+Data archive: https://doi.org/10.18908/lsdba.nbdc00837-000
 
 Modifications for this prototype: combined lung lobes, combined brain cortex/cerebellum/brainstem structures and digestive/airway components, combined named heads/portions into 14 left/right major skeletal-muscle pairs (28 selectable meshes; not a complete muscle atlas), added 33 selectable bones/bone groups with skull, vertebral sections, ribs, hands and feet combined (not a complete skeletal atlas), reduced polygon counts, converted coordinates and units, exported GLB, applied illustrative runtime materials. The heart mesh represents the heart wall. These modified anatomy assets (anatomy.glb and its base64 representation anatomy-data.js) remain CC BY-SA 2.1 Japan. Source license summary: BODY_PARTS_LICENSE.txt. Canonical legal code: https://creativecommons.org/licenses/by-sa/2.1/jp/legalcode . Mesh source identifiers: anatomy-manifest.json. Reproduction script: tools/prepare_anatomy.py.
 

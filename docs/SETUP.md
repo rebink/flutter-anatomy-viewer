@@ -7,20 +7,22 @@ installable pub.dev package. It runs its bundled Three.js viewer inside a WebVie
 There is no backend, real patient data, or runtime CDN requirement. Dependency
 installation does require network access on a fresh machine.
 
-Access remains private pending the agreed official-model migration and approval.
-Original application code is MIT licensed for reuse, including private commercial
-apps; the models are separately licensed. Read [LICENSE.md](../LICENSE.md) and
+The owner has approved public source release with the current CC BY-SA models.
+Original application code is MIT licensed for reuse, including commercial apps;
+the models are separately licensed. Read [LICENSE.md](../LICENSE.md) and
 [INTEGRATION.md](../INTEGRATION.md) before distributing a host app.
 
 ## Prerequisites
 
-- Git and access to `rebink/flutter-anatomy-viewer`.
+- Git.
 - Tested baseline: Flutter 3.27.2 / Dart 3.6.1. The Dart constraint is `^3.6.1`;
   other compatible versions still need validation. Do not blindly upgrade lockfiles.
 - Android: Android Studio/SDK, compatible Java/Gradle setup and emulator or device.
 - iOS: macOS, Xcode, CocoaPods, simulator or a signing-configured device.
 - Node.js 20+ and npm for renderer development/checks, not for simply running the app.
-- Google Chrome for `npm run test:viewer` (the test selects the `chrome` channel).
+- Playwright's open-source Chromium headless shell for browser checks: run
+  `npm run setup:browsers` once after `npm ci` (on Linux, install Chromium's OS
+  dependencies as described by Playwright). Google Chrome is not required.
 - Python 3 and a virtual environment only if rebuilding geometry/candidate assets.
 
 Run `flutter doctor -v` and resolve the issues for your target platform.
@@ -36,8 +38,8 @@ flutter devices
 flutter run -d <device-id>
 ```
 
-Use your normal Git credential manager or `gh auth login` for private access;
-never put tokens in repository URLs or commit `.env`/signing files.
+You can clone the public repository without GitHub credentials. Never put tokens
+in repository URLs or commit `.env`/signing files.
 
 The renderer and model data are already checked in. You do not need Node or
 Python just to launch the app. Android/iOS are the supported app targets;
@@ -75,6 +77,7 @@ Run from the repository root:
 
 ```sh
 npm ci
+npm run setup:browsers
 npm run build:viewer
 flutter analyze
 flutter test
@@ -136,6 +139,22 @@ not approval of the shipped models or permission to relabel them. The candidate
 has 16 regions and does not include the newer muscle/bone modes. Do not copy it
 into app assets: lung geometry and a complete migration need separate approval.
 
+## Commercial migration review candidate
+
+See [the separate migration guide](licensing/COMMERCIAL_MIGRATION_CANDIDATE.md).
+With the geometry environment activated and the official/HRA caches verified,
+`npm run build:migration` builds a 73/77-region research candidate;
+`npm run test:migration` checks its invariants and provenance. Four missing
+muscles and unreviewed lung registration remain release blockers. These commands
+do not replace app assets or clear commercial distribution.
+
+## Female candidate preview
+
+See [the no-purchase candidate guide](licensing/hra-female/OPEN_CANDIDATE.md).
+It writes only to `.research/female-open-candidate/` and preserves the previous
+candidate and bundled app assets. Its 85-region composite labels all source
+adaptations; it is not a complete female-source atlas or approved public release.
+
 ## Embedding into another app
 
 There is no supported `flutter pub add` / Git-dependency installation yet.
@@ -149,11 +168,11 @@ copying this screen provides a production medical API.
 
 ## Troubleshooting
 
-- Private clone denied: verify `gh auth status` and access to the personal account's
-  repository, not the Cureocity organization.
+- Clone failed: check the repository URL and your network connection.
 - 3D unavailable: check WebView platform support and that every `flutter.assets`
   entry exists; do a full app restart after changing bundled JavaScript/model data.
-- Chrome missing: install Google Chrome; the test does not use Flutter Web.
+- Chromium missing: run `npm run setup:browsers`; browser checks use Playwright,
+  not Flutter Web or a proprietary Chrome installation.
 - Python reports missing `trimesh`: activate `.venv` and point your editor at that
   interpreter, not the system Python.
 - Candidate checker reports missing files: it requires the optional candidate

@@ -1,0 +1,29 @@
+[
+  {
+    "file": "metadata.yaml",
+    "url": "https://raw.githubusercontent.com/hubmapconsortium/hra-kg/29888dcc5f32dae28c7a07c41171c822275360c3/digital-objects/ref-organ/united-female/v1.10/raw/metadata.yaml",
+    "sha256": "1c283dab41ef44446ee3e82a616618108431413189ea54f6b7a794e0836d07ab"
+  },
+  {
+    "file": "crosswalk.csv",
+    "url": "https://raw.githubusercontent.com/hubmapconsortium/hra-kg/29888dcc5f32dae28c7a07c41171c822275360c3/digital-objects/ref-organ/united-female/v1.10/raw/crosswalk.csv",
+    "sha256": "2a367d3ad8c1cf1b083c884aed7d99fb3b504d482e1e49570ecdb4f03c84d55f"
+  },
+  {
+    "file": "3d-vh-f-united.glb.dvc",
+    "url": "https://raw.githubusercontent.com/hubmapconsortium/hra-kg/29888dcc5f32dae28c7a07c41171c822275360c3/digital-objects/ref-organ/united-female/v1.10/raw/3d-vh-f-united.glb.dvc",
+    "sha256": "632045081419128079f4bc619502fa8fce369832102a4e3bbfdeeea061ade2b9"
+  },
+  {
+    "file": "dvc-config.txt",
+    "url": "https://raw.githubusercontent.com/hubmapconsortium/hra-kg/29888dcc5f32dae28c7a07c41171c822275360c3/.dvc/config",
+    "sha256": "65928324f27415934d09afb7d9b128abd84c59f93e54d1b348fbbc447d414da7"
+  },
+  {
+    "file": "3d-vh-f-united.glb",
+    "url": "https://cdn.humanatlas.io/dvc/hra-kg/files/md5/5e/4aca68ceea6aa9b21aa9c333c54fec",
+    "sha256": "95f0c3d2f918582608692ca1139e8bdb18c147a16470e9ee9af8b276bd77c422",
+    "md5": "5e4aca68ceea6aa9b21aa9c333c54fec",
+    "bytes": 374505632
+  }
+]

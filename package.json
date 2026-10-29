@@ -3,7 +3,14 @@
   "private": true,
   "scripts": {
     "build:viewer": "esbuild tools/viewer.js --bundle --minify --outfile=assets/viewer/viewer.js",
-    "test:viewer": "node tools/check_viewer.cjs"
+    "test:viewer": "node tools/check_viewer.cjs",
+    "setup:browsers": "playwright install --only-shell chromium",
+    "build:female": "python tools/prepare_female_candidate.py",
+    "preview:female": "node tools/preview_anatomy_candidate.cjs",
+    "test:female": "python tools/prepare_female_candidate.py --check && node tools/preview_anatomy_candidate.cjs --check",
+    "test:geometry": "python -m unittest discover -s tools -p test_prepare_female_candidate.py",
+    "build:migration": "python tools/prepare_commercial_candidate.py",
+    "test:migration": "python -m unittest discover -s tools -p test_prepare_commercial_candidate.py && python tools/prepare_commercial_candidate.py --check"
   },
   "devDependencies": {
     "esbuild": "0.25.0",

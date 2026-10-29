@@ -38,6 +38,7 @@ migrate_working_dir/
 /node_modules/
 /.research/
 /.pi/
+/.pi-subagents/
 /.ruff_cache/
 /.venv/
 .env

@@ -1,0 +1,17 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/hubmapconsortium/hra-kg/29888dcc5f32dae28c7a07c41171c822275360c3/digital-objects/ref-organ/lung-male/v1.4/raw/3d-vh-m-lung.glb",
+    "file": "3d-vh-m-lung.glb",
+    "sha256": "bba95516fa993ac45c3b1c53f32b58d97232ffd78ae56397e5a2589c6ce4903d"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/hubmapconsortium/hra-kg/29888dcc5f32dae28c7a07c41171c822275360c3/digital-objects/ref-organ/lung-male/v1.4/raw/crosswalk.csv",
+    "file": "crosswalk.csv",
+    "sha256": "072b3741e7e60c16f8d6f577ff302978211e826d7b9e345eb725afe5bdd9b910"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/hubmapconsortium/hra-kg/29888dcc5f32dae28c7a07c41171c822275360c3/digital-objects/ref-organ/lung-male/v1.4/raw/metadata.yaml",
+    "file": "metadata.yaml",
+    "sha256": "1ba505e21496b1fdfaa12b2289ff197e33b28e52697b4b59e35469fa00d97089"
+  }
+]

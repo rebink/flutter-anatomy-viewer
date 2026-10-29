@@ -3,13 +3,27 @@ const path = require('node:path');
 const fs = require('node:fs');
 const { pathToFileURL } = require('node:url');
 const { chromium } = require('playwright');
+const { buildSync } = require('esbuild');
+
+const rebuilt = buildSync({ entryPoints: ['tools/viewer.js'], bundle: true, minify: true,
+  outfile: 'assets/viewer/viewer.js', write: false }).outputFiles[0].contents;
+assert.deepEqual(fs.readFileSync('assets/viewer/viewer.js'), Buffer.from(rebuilt),
+  'Bundled renderer is stale; run npm run build:viewer and include the updated bundle');
+const embedded = /^window\.ANATOMY_GLB = "([A-Za-z0-9+/=]+)";\s*$/.exec(fs.readFileSync('assets/viewer/anatomy-data.js', 'utf8'));
+assert.ok(embedded, 'Expected the self-contained bundled model');
+assert.deepEqual(Buffer.from(embedded[1], 'base64'), fs.readFileSync('assets/viewer/anatomy.glb'),
+  'Embedded model must match the raw authoring GLB');
 
 (async () => {
-  const browser = await chromium.launch({ channel: 'chrome', headless: true });
+  const browser = await chromium.launch({ headless: true });
   try {
     const page = await browser.newPage({ viewport: { width: 390, height: 530 }, reducedMotion: 'reduce' });
     const errors = [];
+    const networkRequests = [];
     page.on('pageerror', error => errors.push(error.message));
+    page.on('request', request => {
+      if (/^https?:/.test(request.url())) networkRequests.push(request.url());
+    });
     await page.addInitScript(() => {
       window.messages = [];
       window.drawCount = 0;
@@ -98,6 +112,20 @@ const { chromium } = require('playwright');
     await page.mouse.move(220, 250, { steps: 10 });
     await page.mouse.up();
     assert.equal(await page.evaluate(() => window.messages.filter(m => m.type === 'select').length), before, 'Dragging must not select');
+    // OrbitControls owns pointer capture; an off-canvas release must not poison later taps.
+    await page.mouse.move(195, 265);
+    await page.mouse.down();
+    await page.mouse.move(-20, 265, { steps: 3 });
+    await page.mouse.up();
+    await page.waitForTimeout(1000);
+    let recoveredPicking = false;
+    for (const [x, y] of [[195,265], [180,250], [210,280], [180,280], [210,250]]) {
+      await page.evaluate(() => window.anatomy.focus('lung_left'));
+      await page.mouse.click(x, y);
+      recoveredPicking = await page.evaluate(before => window.messages.filter(m => m.type === 'select').slice(before).some(m => m.value === 'lung_left'), before);
+      if (recoveredPicking) break;
+    }
+    assert.ok(recoveredPicking, 'Picking must survive a drag released outside the canvas');
     // Isolate mode checks from the preceding drag's residual OrbitControls damping.
     await page.reload();
     await page.waitForFunction(() => window.anatomy?.ready);
@@ -188,8 +216,20 @@ const { chromium } = require('playwright');
     for (const color of ['1,0,0', '1,1,0', '0,1,0', '0,0,1']) assert.ok(diffuseColors.includes(color), `Missing themed RGB uniform: ${color}`);
     await page.evaluate(() => window.anatomy.configure({ reducedMotion: true, loading: false, style: { background: 'url(https://invalid.example)' } }));
     assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--scene-background')), '#f4f1ea', 'Invalid color must not replace a safe CSS value');
+    await page.evaluate(() => {
+      const gl = document.querySelector('canvas').getContext('webgl2');
+      const extension = gl.getExtension('WEBGL_lose_context');
+      if (!extension) throw new Error('WebGL context-loss test requires WEBGL_lose_context');
+      extension.loseContext();
+    });
+    await page.waitForFunction(() => window.messages.some(m => m.type === 'error'));
+    assert.equal(await page.locator('#status').isVisible(), true, 'Context loss must reveal the fallback');
+    await page.reload();
+    await page.waitForFunction(() => window.anatomy?.ready);
+    assert.equal(await page.locator('#status').isVisible(), false, 'Reload must recover the viewer');
+    assert.deepEqual(networkRequests, [], 'Bundled viewer must not make runtime network requests');
     assert.deepEqual(errors, []);
-    console.log('PASS: offline GLB, 28 muscle and 33 bone/group selections, mode isolation, organ picking/labels, correct alpha shader, idle GPU, accessible controls, loading guard, drag rejection, custom theme uniforms, no JS errors');
+    console.log('PASS: current renderer bundle, matching embedded GLB, offline rendering, 28 muscle and 33 bone/group selections, mode isolation, organ picking/labels, correct alpha shader, idle GPU, accessible controls, loading guard, drag rejection/recovery, context-loss fallback/reload, custom theme uniforms, no JS errors');
   } finally {
     await browser.close();
   }

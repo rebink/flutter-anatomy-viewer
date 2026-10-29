@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'anatomy_style.dart';
@@ -188,6 +187,7 @@ class _AnatomyScreenState extends State<AnatomyScreen>
       };
   double organOpacity = 1;
   int request = 0;
+  String? viewerUrl;
 
   @override
   void initState() {
@@ -200,9 +200,23 @@ class _AnatomyScreenState extends State<AnatomyScreen>
       ..setBackgroundColor(Colors.transparent)
       ..addJavaScriptChannel('AnatomyBridge', onMessageReceived: onMessage)
       ..setNavigationDelegate(NavigationDelegate(
-        onNavigationRequest: (request) => request.url.startsWith('file://')
-            ? NavigationDecision.navigate
-            : NavigationDecision.prevent,
+        onNavigationRequest: (request) {
+          final uri = Uri.tryParse(request.url);
+          // Only the bundled entry document may use the JavaScript bridge.
+          final allowed = request.isMainFrame &&
+              uri != null &&
+              uri.scheme == 'file' &&
+              uri.host.isEmpty &&
+              !uri.hasQuery &&
+              !uri.hasFragment &&
+              uri.path.endsWith('/flutter_assets/assets/viewer/index.html') &&
+              (viewerUrl == null || request.url == viewerUrl);
+          if (allowed) viewerUrl ??= request.url;
+          return allowed
+              ? NavigationDecision.navigate
+              : NavigationDecision.prevent;
+        },
+        onPageStarted: (url) => viewerUrl ??= url,
         onWebResourceError: (error) {
           if (error.isForMainFrame == true) viewerFailed();
         },
@@ -435,8 +449,17 @@ class _AnatomyScreenState extends State<AnatomyScreen>
                     tooltip: 'Credits and licenses',
                     icon: const Icon(Icons.info_outline),
                     onPressed: () async {
-                      final credits = await rootBundle
-                          .loadString('assets/viewer/CREDITS.txt');
+                      String credits;
+                      try {
+                        credits = await DefaultAssetBundle.of(context)
+                            .loadString('assets/viewer/CREDITS.txt');
+                      } catch (_) {
+                        credits =
+                            'Required anatomy credits could not be loaded. '
+                            'Close this dialog and retry. Do not redistribute '
+                            'this build without its bundled attribution and '
+                            'license files.';
+                      }
                       if (!context.mounted) return;
                       showDialog<void>(
                           context: context,
@@ -510,6 +533,7 @@ class _AnatomyScreenState extends State<AnatomyScreen>
                   Positioned(
                       top: 12,
                       left: 24,
+                      right: 24,
                       child: Semantics(
                           liveRegion: true,
                           child: Text(
@@ -531,17 +555,20 @@ class _AnatomyScreenState extends State<AnatomyScreen>
                             ready ? () => js('window.anatomy.reset();') : null,
                         icon: const Icon(Icons.center_focus_strong),
                       )),
-                  Positioned(
-                      left: 24,
-                      bottom: 20,
-                      child: IgnorePointer(
-                          child: Text(
-                        'DRAG TO ROTATE  ·  PINCH TO ZOOM',
-                        style: TextStyle(
-                            fontSize: 10,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant),
-                      ))),
+                  if (MediaQuery.textScalerOf(context).scale(10) <= 13)
+                    Positioned(
+                        left: 24,
+                        right: 72,
+                        bottom: 20,
+                        child: IgnorePointer(
+                            child: Text(
+                          'DRAG TO ROTATE  ·  PINCH TO ZOOM',
+                          style: TextStyle(
+                              fontSize: 10,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant),
+                        ))),
                 ])),
             Wrap(alignment: WrapAlignment.center, spacing: 16, children: [
               for (final control in [
@@ -562,16 +589,19 @@ class _AnatomyScreenState extends State<AnatomyScreen>
             if (bodyMode) ...[
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(children: [
-                    const Expanded(
-                        child: Text('Report overview',
-                            style: TextStyle(fontSize: 22))),
-                    TextButton(
-                        onPressed: () {
-                          setState(fetchDemo);
-                        },
-                        child: const Text('Replay demo')),
-                  ])),
+                  child: Wrap(
+                      alignment: WrapAlignment.spaceBetween,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      spacing: 16,
+                      children: [
+                        const Text('Report overview',
+                            style: TextStyle(fontSize: 22)),
+                        TextButton(
+                            onPressed: () {
+                              setState(fetchDemo);
+                            },
+                            child: const Text('Replay demo')),
+                      ])),
               if (loading)
                 const Padding(
                     padding: EdgeInsets.all(24),

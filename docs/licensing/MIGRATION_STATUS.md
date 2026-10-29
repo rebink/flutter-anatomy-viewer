@@ -1,15 +1,27 @@
-# Public repository / Cureocity migration status
+# Model migration status
 
-## Approved plan
+## Public source release
 
-The owner approved MIT for original application code and an official CC BY 4.0
-model migration **before** changing `rebink/flutter-anatomy-viewer` to public.
-The intended host is the private commercial Cureocity app. See [LICENSE](../../LICENSE)
+The owner approved publishing `rebink/flutter-anatomy-viewer` with its current
+CC BY-SA 2.1 Japan models. This supersedes the earlier migration-before-public
+plan for repository visibility only. It does not approve replacement geometry,
+relicense models or authorize pub.dev publication. See [LICENSE](../../LICENSE)
 and [LICENSE.md](../../LICENSE.md) for the code/asset boundary.
 
-**Status: blocked on source coverage and geometry approval.** No model assets have
-been promoted, repository visibility has not changed, and no legal certification
-is claimed. The currently bundled legacy models remain CC BY-SA 2.1 Japan.
+**Replacement-model status: blocked on source coverage and geometry approval.**
+No candidate models have been promoted, and no legal certification is claimed.
+The bundled legacy models retain their existing attribution and share-alike terms.
+
+## Continuing without a rights-holder response
+
+The owner reports unanswered emails and approved continuing with independently
+verified replacement sources, not assuming permission from silence. A separate
+[commercial migration candidate](COMMERCIAL_MIGRATION_CANDIDATE.md) now builds
+the available official muscle/bone/organ regions plus HRA lung surfaces, records
+the four missing muscle IDs explicitly, and never reads legacy geometry. It is
+a blocked research preview, not a partial production replacement. Source scope,
+complete coverage and anatomical registration still require review. The contact
+draft below remains historical, not a dependency for this route.
 
 ## Verified coverage gap
 
@@ -64,10 +76,37 @@ also needs review before accepting that representation; watertight source vessel
 are not evidence of a solid lung envelope. Do not synthesize a hull and represent
 it as recovered official lung geometry.
 
-## Remaining path to release
+## Follow-up: preserve coverage
 
-1. Obtain suitable official solid lung/lobe and missing muscle sources with
-   verifiable licensing/provenance, or obtain separate written permission covering
+The owner selected **preserve coverage** rather than omit muscles or replace solid
+lungs with branch-only geometry. This rules out a partial product downgrade.
+
+A separately licensed **HuBMAP Human Reference Atlas male lung v1.4** source now
+provides a promising replacement: object-specific metadata explicitly grants
+CC BY 4.0, and a standalone browser preview shows solid lung/lobe surfaces. Source
+metadata, crosswalk, immutable URLs and SHA-256 pins are preserved in
+[the HRA lung review](hra-lung/REVIEW.md). This is not yet registered to the
+BodyParts3D body or approved for shipping; it is not a completed lung migration.
+
+No approved replacement for the four missing muscle selections is available yet.
+A broader [replacement-source audit](MODEL_SOURCE_REVIEW.md) found an actual rectus
+abdominis mesh in Open Anatomy's downloadable abdominal atlas under Slicer terms.
+Its full extent, bilateral separation and alignment remain unvalidated; no
+latissimus match was found in that archive. The audit also records component-level
+noncommercial notices in Z-Anatomy and AnatomyTOOL, so neither is a blindly safe
+whole-bundle substitution. Investigation
+of the live [BodyParts3D license page](https://lifesciencedb.jp/bp3d/info_en/license/index.html)
+found explicit CC BY-SA 2.1 Japan wording alongside a reference to the archive's
+license. That inconsistency does not establish a CC BY 4.0 grant for all live-site
+meshes. Its [download page](https://lifesciencedb.jp/bp3d/info_en/download/index.html)
+points to the archive; the [map API](https://lifesciencedb.jp/bp3d/info_en/webapi/)
+does not by itself establish a separately licensed mesh source. Clarification must
+cover exact assets/releases, not just the database name.
+
+## Remaining path to a replacement-model release
+
+1. Validate the HRA lung candidate's suitability and obtain missing muscle sources
+   with verifiable licensing/provenance, or obtain separate written permission covering
    the exact desired legacy artifacts and adaptations. Record scope and hashes.
 2. Alternatively, obtain explicit owner approval for different geometry/coverage.
    This would change the product; it is not an automatic licensing fix.
@@ -82,10 +121,11 @@ it as recovered official lung geometry.
 6. Review Cureocity's actual EULA, store distribution, DRM and model modifications
    with counsel. Record the host credits entry point. No Cureocity host files or
    store agreements have been inspected or modified in this repository task.
-7. Make the personal repository public only after the migration/approval gate.
-   A visibility change exposes Git history too: historical CC BY-SA models retain
-   their historical license. Do not describe every Git revision as CC BY 4.0.
-   History removal/rewrite, if desired, needs a separate explicit decision.
+7. Keep public releases explicit about the actual model license. The owner has
+   approved publishing the current CC BY-SA assets without waiting for migration.
+   Public visibility exposes Git history too: historical models retain their
+   historical license. Do not describe every revision as CC BY 4.0. History
+   removal/rewrite, if desired, needs a separate explicit decision.
 
 ## Draft request to DBCLS / rights holder
 

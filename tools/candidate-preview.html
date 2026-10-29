@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anatomy / Candidate Preview</title>
+<style>
+:root{color-scheme:dark;--bg:#08191f;--surface:#102830;--raised:#14323b;--accent:#9ae4d5;--text:#e0e9eb;--muted:#a4bec4;--border:#345058}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px 'Helvetica Neue',sans-serif}main{max-width:760px;margin:auto;padding:24px}header{display:flex;align-items:center;justify-content:space-between;gap:16px}.eyebrow{color:var(--accent);font-size:11px;letter-spacing:3px}h1{font:normal clamp(30px,6vw,38px) Georgia,serif;margin:9px 0}h2{font-size:20px;font-weight:500;margin:20px 0 8px}p{line-height:1.5}.muted{color:var(--muted)}.disclosure{font-size:12px}.candidate{border-left:2px solid #e5ba79;padding-left:12px;color:#e5c99f;font-size:12px}
+button,input{font:inherit}button{color:var(--text);border:1px solid var(--border);border-radius:10px;background:transparent;padding:9px 14px;cursor:pointer;min-height:44px}button:hover{background:var(--raised)}button[aria-pressed=true]{background:var(--raised);border-color:var(--accent);color:var(--accent)}button:disabled{opacity:.45;cursor:default}button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.icon{border:0;font-size:21px;min-width:44px}.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.models{margin:20px 0 12px}.models button{flex:1}.modes{margin-bottom:8px}.stage{position:relative;margin:0 -24px;height:clamp(300px,52vh,560px)}iframe{width:100%;height:100%;border:0;display:block}.scene-status{position:absolute;top:12px;left:24px;right:24px;color:var(--accent);font-size:12px;pointer-events:none}.hint{position:absolute;bottom:18px;left:24px;color:var(--muted);font-size:10px;pointer-events:none;letter-spacing:1px}.reset{position:absolute;bottom:8px;right:12px;background:var(--raised)}.camera-controls{justify-content:center;margin:10px 0}.camera-controls button{font-size:13px}.opacity{margin:20px 0}input[type=range]{width:100%;accent-color:var(--accent);margin:16px 0;min-height:30px}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.chips button{font-size:13px;border-radius:9px}.description{font-size:12px}.motion{display:flex;justify-content:space-between;align-items:center;margin:26px 0;min-height:44px}.motion input{width:22px;height:22px;accent-color:var(--accent)}.report{display:flex;justify-content:space-between;align-items:center}.finding{display:flex;justify-content:space-between;align-items:center;text-align:left;width:100%;background:var(--surface);border:0;margin:8px 0;padding:16px}.finding small{display:block;margin-top:5px}.danger{color:#ff6e73}.warning{color:#ffbd68}a{color:var(--accent)}dialog{border:1px solid var(--border);border-radius:18px;background:var(--surface);color:var(--text);width:min(600px,calc(100% - 32px));max-height:85vh;padding:24px}dialog::backdrop{background:#000a}dialog pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.6 'Helvetica Neue',sans-serif;max-height:55vh;overflow:auto}dialog footer{text-align:right}.selection{color:var(--accent);min-height:24px}.footer{font-size:12px;margin-bottom:24px}@media(max-width:440px){main{padding:20px}.stage{margin:0 -20px}.camera-controls{gap:4px}.camera-controls button{padding:8px;font-size:12px}.hint{font-size:9px;max-width:60%}}@media(prefers-reduced-motion:no-preference){main{animation:enter .25s ease-out}@keyframes enter{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+<header><div><div class="eyebrow">ANATOMY / PREVIEW</div><h1>A view within.</h1></div><button class="icon" id="credits" aria-label="Credits and licenses" title="Credits and licenses">&#9432;</button></header>
+<p class="muted disclosure">FICTIONAL DEMO &middot; Not a diagnosis or medical device</p>
+<p id="candidate-note" class="candidate">Female illustration: 37 HRA reference regions, 44 official-source adaptations and 4 legacy adaptations. Original HRA proportions; no cosmetic slimming. Not a complete female-derived atlas. Alignment and mixed-license review pending; not approved for release.</p>
+<div class="row models" aria-label="Anatomy model"><button data-model="male" aria-pressed="false">Male</button><button data-model="female" aria-pressed="true">Female <small>&middot; candidate</small></button></div>
+<div class="row modes" aria-label="Anatomy mode"><button data-mode="body" aria-pressed="true">Body Parts</button><button data-mode="muscles" aria-pressed="false">Muscles</button><button data-mode="bones" aria-pressed="false">Bones</button></div>
+<section class="stage" aria-label="Anatomy viewer"><iframe id="viewer" title="Interactive female anatomy" src="about:blank"></iframe><div id="scene-status" class="scene-status" role="status">Preparing anatomy...</div><div class="hint">DRAG TO ROTATE &middot; PINCH TO ZOOM</div><button id="reset" class="reset" aria-label="Reset body view" title="Reset body view" disabled>&#8982;</button></section>
+<div class="row camera-controls" aria-label="Camera controls"><button data-nudge="left" disabled>Rotate left</button><button data-nudge="right" disabled>Rotate right</button><button data-nudge="in" disabled>Zoom in</button><button data-nudge="out" disabled>Zoom out</button></div>
+<p id="selected" class="selection" role="status"></p><p id="source-detail" class="description muted" aria-live="polite"></p>
+<section id="report"><div class="report"><h2>Report overview</h2><button id="replay">Replay demo</button></div><button class="finding" data-finding="lung_left"><span>Left lung<small class="danger">Danger &middot; DEMO</small></span><span aria-hidden="true">&#8599;</span></button><button class="finding" data-finding="lung_right"><span>Right lung<small class="warning">Warning &middot; DEMO</small></span><span aria-hidden="true">&#8599;</span></button><p class="description muted">Fictional examples only. Neutral organs are not assessed.</p></section>
+<div class="opacity"><label id="opacity-label" for="opacity">Organ opacity &middot; 100%</label><input id="opacity" type="range" min="35" max="100" step="5" value="100"></div>
+<h2>Explore anatomy</h2><p id="description" class="description muted">Select an organ to reveal it through surrounding structures.</p><div id="structures" class="chips" aria-label="Selectable structures"></div>
+<label class="motion" for="motion">Reduce motion<input id="motion" type="checkbox"></label>
+<p class="muted footer">Generic anatomical illustration, not a reconstruction of your body. The female model contains sourced female anatomy and explicitly labeled adaptations. This browser preview reuses the app renderer; it does not replace the Flutter app.</p>
+</main>
+<dialog id="credits-dialog" aria-labelledby="credits-title"><h2 id="credits-title">Anatomy credits</h2><pre id="credits-text">Loading credits...</pre><p><a id="credits-link" href="/credits/female.txt" target="_blank" rel="noopener">Open bundled source and license notices</a></p><footer><button id="close-credits">Close</button></footer></dialog>
+<script>
+'use strict';
+const frame = document.querySelector('#viewer');
+const status = document.querySelector('#scene-status');
+const selected = document.querySelector('#selected');
+const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+const motion = document.querySelector('#motion');
+motion.checked = reduced.matches; motion.disabled = reduced.matches;
+let model = 'female', mode = 'body', ready = false, catalog, generation = 0, selectedId = '';
+let demoTimer;
+function entries() { return catalog?.[model]?.[mode] || {}; }
+function api() { return ready ? frame.contentWindow.anatomy : null; }
+function sourceDetail(id) {
+  const region = catalog?.provenance?.[model]?.[id];
+  if (!region) return 'Source record unavailable; not clinically validated.';
+  const label = { 'hra-female': 'HRA female reference set', 'adapted-official': 'Official BodyParts3D adaptation (male-derived)', 'adapted-legacy': 'Legacy male-derived adaptation', 'legacy-male': 'Legacy male reference' }[region.source] || 'Unreviewed source';
+  return `${label} \u00b7 ${region.license} \u00b7 not clinically validated.`;
+}
+function sync(loading = false) {
+  api()?.configure({ mode, loading, organOpacity: Number(document.querySelector('#opacity').value) / 100,
+    reducedMotion: reduced.matches || motion.checked,
+    findings: { lung_left: 'danger', lung_right: 'warning' } });
+}
+function choose(id, fromViewer = false) {
+  if (!ready || !Object.hasOwn(entries(), id)) return;
+  if (!fromViewer) api().focus(id);
+  selectedId = id; selected.textContent = entries()[id];
+  document.querySelector('#source-detail').textContent = sourceDetail(id);
+  document.querySelectorAll('[data-structure]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.structure === id)));
+}
+function renderList() {
+  const list = document.querySelector('#structures'); list.replaceChildren();
+  Object.entries(entries()).forEach(([id, label]) => {
+    const button = document.createElement('button');
+    button.dataset.structure = id; button.textContent = label; button.disabled = !ready;
+    button.title = sourceDetail(id);
+    if (catalog?.provenance?.[model]?.[id]?.source.startsWith('adapted-')) button.textContent += ' (adapted)';
+    button.setAttribute('aria-pressed', String(id === selectedId)); button.addEventListener('click', () => choose(id)); list.append(button);
+  });
+  document.querySelector('#report').hidden = mode !== 'body';
+  const word = mode === 'muscles' ? 'Muscle' : mode === 'bones' ? 'Bone' : 'Organ';
+  document.querySelector('#opacity-label').textContent = `${word} opacity \u00b7 ${document.querySelector('#opacity').value}%`;
+  document.querySelector('#description').textContent = mode === 'muscles' ? 'Explore 14 major muscle pairs. Select a muscle to highlight and focus it; this is not a complete muscle atlas.' : mode === 'bones' ? 'Select a bone or group to highlight and focus it. Skull, spine sections, ribs, hands and feet are grouped; this is not a complete bone atlas.' : 'Select an organ to reveal it through surrounding structures.';
+  if (ready) status.textContent = mode === 'body' ? '2 example findings \u00b7 lungs' : `${Object.keys(entries()).length} ${mode === 'bones' ? 'bones / groups' : 'major muscles'} \u00b7 tap to highlight`;
+}
+function reset() { api()?.reset(); selectedId = ''; selected.textContent = ''; document.querySelector('#source-detail').textContent = ''; document.querySelectorAll('[data-structure]').forEach(button => button.setAttribute('aria-pressed', 'false')); }
+function loadModel(next) {
+  clearTimeout(demoTimer); model = next; ready = false; generation++; selectedId = ''; selected.textContent = '';
+  document.querySelector('#source-detail').textContent = '';
+  status.textContent = 'Preparing anatomy...';
+  document.querySelectorAll('[data-model]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.model === model)));
+  document.querySelector('#candidate-note').hidden = model !== 'female';
+  document.querySelectorAll('[data-nudge],#reset').forEach(button => button.disabled = true);
+  document.querySelector('#credits-link').href = `/credits/${model}.txt`;
+  frame.title = `Interactive ${model} anatomy`;
+  frame.src = `/viewer/index.html?model=${model}&generation=${generation}`;
+  renderList();
+}
+window.addEventListener('message', event => {
+  if (event.origin !== location.origin || event.source !== frame.contentWindow) return;
+  const message = event.data;
+  if (!message || message.generation !== generation || !['ready', 'select', 'error'].includes(message.type)) return;
+  if (message.type === 'ready') {
+    ready = true; sync(); renderList();
+    document.querySelectorAll('[data-nudge],#reset').forEach(button => button.disabled = false);
+  } else if (message.type === 'select') choose(message.value, true);
+  else {
+    ready = false; renderList(); status.textContent = '3D unavailable. Credits remain available; select a model to retry.';
+    document.querySelectorAll('[data-nudge],#reset').forEach(button => button.disabled = true);
+  }
+});
+document.querySelectorAll('[data-model]').forEach(button => button.addEventListener('click', () => loadModel(button.dataset.model)));
+document.querySelectorAll('[data-mode]').forEach(button => button.addEventListener('click', () => {
+  clearTimeout(demoTimer); mode = button.dataset.mode; reset();
+  document.querySelectorAll('[data-mode]').forEach(item => item.setAttribute('aria-pressed', String(item.dataset.mode === mode)));
+  sync(); renderList();
+}));
+document.querySelectorAll('[data-nudge]').forEach(button => button.addEventListener('click', () => api()?.nudge(button.dataset.nudge)));
+document.querySelector('#reset').addEventListener('click', reset);
+document.querySelector('#opacity').addEventListener('input', () => { sync(); renderList(); });
+motion.addEventListener('change', () => sync());
+reduced.addEventListener('change', () => { motion.disabled = reduced.matches; if (reduced.matches) motion.checked = true; sync(); });
+document.addEventListener('visibilitychange', () => api()?.pause(document.hidden));
+document.querySelectorAll('[data-finding]').forEach(button => button.addEventListener('click', () => choose(button.dataset.finding)));
+document.querySelector('#replay').addEventListener('click', () => {
+  if (!ready) return;
+  clearTimeout(demoTimer); reset(); sync(true); status.textContent = 'Preparing example results...';
+  demoTimer = setTimeout(() => { sync(); renderList(); }, 2000);
+});
+document.querySelector('#credits').addEventListener('click', async () => {
+  const dialog = document.querySelector('#credits-dialog');
+  const text = document.querySelector('#credits-text'); text.textContent = 'Loading credits...'; dialog.showModal();
+  try { const response = await fetch(`/credits/${model}.txt`); if (!response.ok) throw new Error('Credits unavailable'); text.textContent = await response.text(); }
+  catch { text.textContent = 'Could not load credits. Use the bundled notices link below.'; }
+});
+document.querySelector('#close-credits').addEventListener('click', () => document.querySelector('#credits-dialog').close());
+fetch('/catalog.json').then(response => { if (!response.ok) throw new Error('Catalog unavailable'); return response.json(); }).then(value => { catalog = value; loadModel(model); }).catch(error => { status.textContent = error.message; });
+</script>
+</body>
+</html>

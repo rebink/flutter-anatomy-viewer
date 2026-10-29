@@ -7,10 +7,10 @@ The original application code, tools and documentation are licensed under
 Include the MIT copyright and permission notice with copies or substantial portions
 of that software. This grant does **not** relicense third-party assets or evidence.
 
-The repository remains private until the approved model-migration/public-release
-plan is complete; MIT does not itself change repository visibility. This is not
-yet a published Flutter package. Keep `publish_to: none` in `pubspec.yaml`.
-Do not apply a blanket MIT label to the model assets.
+The owner has approved public source release with the existing CC BY-SA 2.1 Japan
+models. This does not relicense the models or approve replacement candidates.
+This is not yet a published Flutter package; keep `publish_to: none` in
+`pubspec.yaml`. Do not apply a blanket MIT label to the model assets.
 
 ## Bundled anatomy
 

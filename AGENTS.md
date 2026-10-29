@@ -10,9 +10,10 @@ The official DBCLS license update to CC BY 4.0 on 27 February 2025 is verified,
 but the official Release 4.0 candidate has a lung-geometry mismatch and has NOT
 been promoted into the app. See `docs/licensing/bodyparts3d/` for evidence.
 Original application code is MIT licensed; see LICENSE and LICENSE.md for scope.
-Models are not MIT. Public repository visibility and package publication remain
-blocked pending geometry/source approval under the agreed migration-first plan.
-Keep `publish_to: none`.
+Models are not MIT. The owner approved public source release with the current
+CC BY-SA 2.1 Japan assets. This supersedes the earlier migration-first repository
+visibility hold; it does not approve replacement candidates or registry
+publication. Keep `publish_to: none`.
 
 ## Mandatory attribution UX
 

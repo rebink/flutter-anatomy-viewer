@@ -3,12 +3,14 @@ import 'dart:convert';
 import 'package:anatomy_viewer/main.dart';
 import 'package:anatomy_viewer/anatomy_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
 
 // Exercise the real Flutter screen without requiring a native WebView in widget tests.
 class TestWebViewPlatform extends WebViewPlatform {
   late TestController controller;
+  late TestNavigation navigation;
   @override
   PlatformWebViewController createPlatformWebViewController(
           PlatformWebViewControllerCreationParams params) =>
@@ -16,7 +18,7 @@ class TestWebViewPlatform extends WebViewPlatform {
   @override
   PlatformNavigationDelegate createPlatformNavigationDelegate(
           PlatformNavigationDelegateCreationParams params) =>
-      TestNavigation(params);
+      navigation = TestNavigation(params);
   @override
   PlatformWebViewWidget createPlatformWebViewWidget(
           PlatformWebViewWidgetCreationParams params) =>
@@ -51,9 +53,19 @@ class TestController extends PlatformWebViewController {
 
 class TestNavigation extends PlatformNavigationDelegate {
   TestNavigation(super.params) : super.implementation();
+  late NavigationRequestCallback navigate;
+  late PageEventCallback pageStarted;
   @override
   Future<void> setOnNavigationRequest(
-      NavigationRequestCallback callback) async {}
+      NavigationRequestCallback callback) async {
+    navigate = callback;
+  }
+
+  @override
+  Future<void> setOnPageStarted(PageEventCallback callback) async {
+    pageStarted = callback;
+  }
+
   @override
   Future<void> setOnWebResourceError(WebResourceErrorCallback callback) async {}
 }
@@ -64,7 +76,168 @@ class TestViewer extends PlatformWebViewWidget {
   Widget build(BuildContext context) => const SizedBox();
 }
 
+class MissingCreditsBundle extends CachingAssetBundle {
+  @override
+  Future<ByteData> load(String key) async =>
+      throw FlutterError('Missing test asset: $key');
+}
+
 void main() {
+  for (final entryUrl in [
+    'file:///android_asset/flutter_assets/assets/viewer/index.html',
+    'file:///private/app/Frameworks/App.framework/flutter_assets/assets/viewer/index.html',
+  ]) {
+    testWidgets('WebView restricts navigation to its bundled entry: $entryUrl',
+        (tester) async {
+      final oldPlatform = WebViewPlatform.instance;
+      final platform = TestWebViewPlatform();
+      WebViewPlatform.instance = platform;
+      addTearDown(() {
+        if (oldPlatform != null) WebViewPlatform.instance = oldPlatform;
+      });
+      await tester.pumpWidget(const AnatomyApp());
+      final navigation = platform.navigation;
+      Future<NavigationDecision> decision(String url,
+              {bool isMainFrame = true}) async =>
+          navigation
+              .navigate(NavigationRequest(url: url, isMainFrame: isMainFrame));
+      expect(await decision(entryUrl), NavigationDecision.navigate);
+      navigation.pageStarted(entryUrl);
+      expect(await decision(entryUrl), NavigationDecision.navigate);
+      expect(await decision(entryUrl, isMainFrame: false),
+          NavigationDecision.prevent);
+      for (final url in [
+        'https://example.com/',
+        'javascript:alert(1)',
+        'data:text/html,untrusted',
+        'file:///private/untrusted.html',
+        'file:///other/flutter_assets/assets/viewer/index.html',
+        'file://remote/flutter_assets/assets/viewer/index.html',
+        '$entryUrl?unexpected=true',
+        '$entryUrl#unexpected',
+      ]) {
+        expect(await decision(url), NavigationDecision.prevent, reason: url);
+      }
+      await tester.pumpWidget(const SizedBox());
+    });
+  }
+
+  testWidgets('Missing credits show a readable redistribution warning',
+      (tester) async {
+    final oldPlatform = WebViewPlatform.instance;
+    WebViewPlatform.instance = TestWebViewPlatform();
+    addTearDown(() {
+      if (oldPlatform != null) WebViewPlatform.instance = oldPlatform;
+    });
+    await tester.pumpWidget(DefaultAssetBundle(
+        bundle: MissingCreditsBundle(), child: const AnatomyApp()));
+    await tester.tap(find.byTooltip('Credits and licenses'));
+    await tester.pumpAndSettle();
+    expect(find.text('Anatomy credits'), findsOneWidget);
+    expect(find.textContaining('Required anatomy credits could not be loaded.'),
+        findsOneWidget);
+    expect(find.textContaining('Do not redistribute'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.tap(find.text('Close'));
+    await tester.pumpAndSettle();
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('Viewer status and controls fit at enlarged text sizes',
+      (tester) async {
+    final oldPlatform = WebViewPlatform.instance;
+    final platform = TestWebViewPlatform();
+    WebViewPlatform.instance = platform;
+    tester.view.physicalSize = const Size(320, 844);
+    tester.view.devicePixelRatio = 1;
+    tester.platformDispatcher.textScaleFactorTestValue = 3;
+    addTearDown(() {
+      if (oldPlatform != null) WebViewPlatform.instance = oldPlatform;
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+      tester.platformDispatcher.clearTextScaleFactorTestValue();
+    });
+    await tester.pumpWidget(const AnatomyApp());
+    platform.controller.message('{"type":"ready"}');
+    await tester.pump(const Duration(seconds: 2));
+    await tester.pumpAndSettle();
+    for (final mode in ['Muscles', 'Bones', 'Body Parts']) {
+      await tester.scrollUntilVisible(find.text(mode), 200);
+      await Scrollable.ensureVisible(tester.element(find.text(mode)),
+          alignment: 0.5);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(mode));
+      await tester.pumpAndSettle();
+      final status = find.descendant(
+          of: find.byWidgetPredicate((widget) =>
+              widget is Semantics && widget.properties.liveRegion == true),
+          matching: find.byType(Text));
+      expect(
+          tester.widget<Text>(status).data,
+          switch (mode) {
+            'Muscles' => '28 major muscles · tap to highlight',
+            'Bones' => '33 bones / groups · tap to highlight',
+            _ => '2 example findings · lungs',
+          });
+      final statusRect = tester.getRect(status);
+      expect(statusRect.left, greaterThanOrEqualTo(0));
+      expect(statusRect.right, lessThanOrEqualTo(320));
+      expect(find.text('DRAG TO ROTATE  ·  PINCH TO ZOOM'), findsNothing);
+      final resetRect = tester.getRect(find.byTooltip('Reset body view'));
+      expect(statusRect.bottom, lessThanOrEqualTo(resetRect.top));
+      expect(tester.takeException(), isNull);
+    }
+    await tester.scrollUntilVisible(find.text('Report overview'), 200);
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('Credits stay readable after viewer failure with enlarged text',
+      (tester) async {
+    final oldPlatform = WebViewPlatform.instance;
+    final platform = TestWebViewPlatform();
+    WebViewPlatform.instance = platform;
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(() {
+      if (oldPlatform != null) WebViewPlatform.instance = oldPlatform;
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+      tester.platformDispatcher.clearTextScaleFactorTestValue();
+    });
+    await tester.pumpWidget(const AnatomyApp());
+    await tester.pump(const Duration(seconds: 2));
+    platform.controller.message('{"type":"error"}');
+    await tester.pumpAndSettle();
+    expect(find.text('3D unavailable. Findings remain accessible below.'),
+        findsOneWidget);
+    await tester.tap(find.byTooltip('Credits and licenses'));
+    await tester.pumpAndSettle();
+    expect(find.text('Anatomy credits'), findsOneWidget);
+    expect(find.textContaining('BodyParts3D'), findsOneWidget);
+    expect(find.textContaining('CC BY-SA 2.1 Japan'), findsOneWidget);
+    expect(
+        find.textContaining(
+            'https://creativecommons.org/licenses/by-sa/2.1/jp/legalcode'),
+        findsOneWidget);
+    expect(find.textContaining('Modifications for this prototype'),
+        findsOneWidget);
+    final scrollable = find.descendant(
+        of: find.byType(AlertDialog), matching: find.byType(Scrollable));
+    final scrollState = tester.state<ScrollableState>(scrollable);
+    expect(scrollState.position.maxScrollExtent, greaterThan(0));
+    await tester.drag(scrollable, const Offset(0, -350));
+    await tester.pumpAndSettle();
+    expect(scrollState.position.pixels, greaterThan(0));
+    await tester.tap(find.text('Close'));
+    await tester.pumpAndSettle();
+    expect(find.text('Anatomy credits'), findsNothing);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox());
+  });
+
   testWidgets('Muscle and bone modes select, isolate and survive viewer reload',
       (tester) async {
     final oldPlatform = WebViewPlatform.instance;
